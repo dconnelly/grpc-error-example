@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package example;
+
+option java_package = "example";
+
+import "google/protobuf/empty.proto";
+
+service ExampleService {
+    rpc GenerateError(GenerateErrorRequest) returns (google.protobuf.Empty);
+}
+
+message GenerateErrorRequest {
+    string code = 1;
+    string message = 2;
+}
