@@ -105,9 +105,9 @@ public class ExampleClient implements AutoCloseable {
             param, Errors.streamObserverWithStatus(status::get, observer));
     }
 
-    public <ReqT, ResT> ClientCall<ReqT, ResT> capturingCall(Consumer<ErrorStatus> errorConsumer,
+    public <ReqT, ResT> ClientCall<ReqT, ResT> capturingCall(Consumer<ErrorStatus> statusConsumer,
                                                              MethodDescriptor<ReqT, ResT> method) {
-        return Errors.capturingCall(channel.newCall(method, CallOptions.DEFAULT), errorConsumer);
+        return Errors.capturingCall(channel.newCall(method, CallOptions.DEFAULT), statusConsumer);
     }
 
     private static Example.GenerateErrorRequest errorRequest(ErrorStatus errorStatus) {
