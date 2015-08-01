@@ -5,8 +5,7 @@ import io.grpc.StatusException;
 import io.grpc.StatusRuntimeException;
 
 /**
- * Extends StatusRuntimeException with support for additional application error status information. Additional
- * error information will be returned in error response metadata.
+ * Extends StatusRuntimeException with support for additional application error status information.
  */
 public class ErrorException extends StatusRuntimeException {
     private final ErrorStatus errorStatus;
