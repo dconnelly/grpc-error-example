@@ -97,7 +97,7 @@ public class Errors {
                     return super.get();
                 } catch (ExecutionException e) {
                     throw new ExecutionException(e.getMessage(),
-                        GrpcException.fromThrowable(e.getCause()).withErrorStatus(statusSupplier.get()));
+                        ErrorException.fromThrowable(e.getCause()).withErrorStatus(statusSupplier.get()));
                 }
             }
 
@@ -107,7 +107,7 @@ public class Errors {
                     return super.get(timeout, unit);
                 } catch (ExecutionException e) {
                     throw new ExecutionException(e.getMessage(),
-                        GrpcException.fromThrowable(e.getCause()).withErrorStatus(statusSupplier.get()));
+                        ErrorException.fromThrowable(e.getCause()).withErrorStatus(statusSupplier.get()));
                 }
             }
         };
@@ -127,7 +127,7 @@ public class Errors {
 
             @Override
             public void onError(Throwable throwable) {
-                delegate.onError(GrpcException.fromThrowable(throwable).withErrorStatus(statusSupplier.get()));
+                delegate.onError(ErrorException.fromThrowable(throwable).withErrorStatus(statusSupplier.get()));
             }
 
             @Override
@@ -142,7 +142,7 @@ public class Errors {
      * to set on response metadata. Also logs errors that aren't due to client errors (e.g. invalid argument, etc).
      */
     public static <V> void handleError(Throwable t, StreamObserver<V> responseObserver) {
-        GrpcException e = GrpcException.fromThrowable(t);
+        ErrorException e = ErrorException.fromThrowable(t);
         if (!e.isClientError()) {
             logger.log(Level.SEVERE, e.getMessage(), e);
         }

@@ -46,7 +46,7 @@ public class ExampleServer extends AbstractIdleService {
                 ErrorStatus.Code code = ErrorStatus.Code.fromString(request.getCode())
                     .orElseThrow(Status.INVALID_ARGUMENT::asRuntimeException);
                 ErrorStatus status = ErrorStatus.forCode(code).withMessage(Strings.emptyToNull(request.getMessage()));
-                throw GrpcException.forErrorStatus(status);
+                throw ErrorException.forErrorStatus(status);
             } catch (Throwable e) {
                 Errors.handleError(e, responseObserver);
             }

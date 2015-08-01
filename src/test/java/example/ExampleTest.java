@@ -44,7 +44,7 @@ public class ExampleTest {
         try {
             client.generateErrorBlockingStub(accountNotFound);
             fail();
-        } catch (GrpcException e) {
+        } catch (ErrorException e) {
             assertEquals(e.getStatus().getCode(), Status.Code.NOT_FOUND);
             assertEquals(accountNotFound, e.errorStatus());
         }
@@ -57,8 +57,8 @@ public class ExampleTest {
             future.get();
             fail();
         } catch (ExecutionException e) {
-            assertTrue(e.getCause() instanceof GrpcException);
-            assertEquals(accountNotFound, ((GrpcException) e.getCause()).errorStatus());
+            assertTrue(e.getCause() instanceof ErrorException);
+            assertEquals(accountNotFound, ((ErrorException) e.getCause()).errorStatus());
         } catch (InterruptedException e) {
             fail();
         }
@@ -69,8 +69,8 @@ public class ExampleTest {
         StreamRecorder<Empty> recorder = StreamRecorder.create();
         client.generateErrorAsyncStub(accountNotFound, recorder);
         recorder.awaitCompletion(5, TimeUnit.SECONDS);
-        assertTrue(recorder.getError() instanceof GrpcException);
-        assertEquals(accountNotFound, ((GrpcException) recorder.getError()).errorStatus());
+        assertTrue(recorder.getError() instanceof ErrorException);
+        assertEquals(accountNotFound, ((ErrorException) recorder.getError()).errorStatus());
     }
 
     @Test
@@ -78,7 +78,7 @@ public class ExampleTest {
         try {
             client.generateErrorBlockingUnaryCall(accountNotFound);
             fail();
-        } catch (GrpcException e) {
+        } catch (ErrorException e) {
             assertEquals(e.getStatus().getCode(), Status.Code.NOT_FOUND);
             assertEquals(accountNotFound, e.errorStatus());
         }
@@ -91,8 +91,8 @@ public class ExampleTest {
             future.get();
             fail();
         } catch (ExecutionException e) {
-            assertTrue(e.getCause() instanceof GrpcException);
-            assertEquals(accountNotFound, ((GrpcException) e.getCause()).errorStatus());
+            assertTrue(e.getCause() instanceof ErrorException);
+            assertEquals(accountNotFound, ((ErrorException) e.getCause()).errorStatus());
         } catch (InterruptedException e) {
             fail();
         }
@@ -103,7 +103,7 @@ public class ExampleTest {
         StreamRecorder<Empty> recorder = StreamRecorder.create();
         client.generateErrorAsyncUnaryCall(accountNotFound, recorder);
         recorder.awaitCompletion(5, TimeUnit.SECONDS);
-        assertTrue(recorder.getError() instanceof GrpcException);
-        assertEquals(accountNotFound, ((GrpcException) recorder.getError()).errorStatus());
+        assertTrue(recorder.getError() instanceof ErrorException);
+        assertEquals(accountNotFound, ((ErrorException) recorder.getError()).errorStatus());
     }
 }

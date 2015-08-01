@@ -49,7 +49,7 @@ public class ExampleClient implements AutoCloseable {
             blockingStub.withInterceptors(Errors.clientInterceptor(status::set))
                 .generateError(errorRequest(errorStatus));
         } catch (Throwable e) {
-            throw GrpcException.fromThrowable(e).withErrorStatus(status.get());
+            throw ErrorException.fromThrowable(e).withErrorStatus(status.get());
         }
     }
 
@@ -88,7 +88,7 @@ public class ExampleClient implements AutoCloseable {
         try {
             return ClientCalls.blockingUnaryCall(capturingCall(status::set, method), param);
         } catch (StatusRuntimeException e) {
-            throw GrpcException.forStatus(e.getStatus()).withErrorStatus(status.get());
+            throw ErrorException.forStatus(e.getStatus()).withErrorStatus(status.get());
         }
     }
 
